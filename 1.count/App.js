@@ -1,49 +1,54 @@
 import { Component } from "react";
 
 class App extends Component {
+  state = {
+    count: 0,
+  };
   //+
   increment = () => {
     let value = this.value.value;
-    this.props.store.dispatch({
-      type: "add",
-      data: value,
+    let count = this.state.count + value * 1;
+    this.setState({
+      count,
     });
   };
   //-
   decrement = () => {
     let value = this.value.value;
-    this.props.store.dispatch({
-      type: "jian",
-      data: value,
+    let count = this.state.count - value * 1;
+    this.setState({
+      count,
     });
   };
 
   //odd
   incrementOdd = () => {
     let value = this.value.value;
-    let count = this.props.store.getState();
+    let count = this.state.count;
     if (count % 2 === 1) {
-      this.props.store.dispatch({
-        type: "add",
-        data: value,
-      });
+      count = count + value * 1;
     }
+    this.setState({
+      count,
+    });
   };
 
   //async
   incrementAsync = () => {
     let value = this.value.value;
+    let count = this.state.count;
+    count = count + value * 1;
     setTimeout(() => {
-      this.props.store.dispatch({
-        type: "add",
-        data: value,
+      console.log(1);
+      this.setState({
+        count,
       });
     }, 1000);
   };
   render() {
     return (
       <div>
-        <h3>当前计数为{this.props.store.getState()}</h3>
+        <h3>当前计数为{this.state.count}</h3>
         <select ref={(value) => (this.value = value)}>
           <option value="1">1</option>
           <option value="2">2</option>

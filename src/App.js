@@ -4,7 +4,7 @@ import { Component } from "react";
 class App extends Component {
   render() {
     return (
-     <h1>redux131</h1>
+     <h1>redux1士大夫发射点发射点发31</h1>
     );
   }
 }

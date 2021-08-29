@@ -1,5 +1,5 @@
 //创建一个reducers
-let initState = 0;
+let initState = 19;
 export default function reCount(preState = initState, action) {
   let { data, type } = action;
   let newState;

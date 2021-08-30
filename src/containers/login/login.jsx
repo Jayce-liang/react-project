@@ -1,10 +1,15 @@
 import { Component } from "react";
+import {connect} from "react-redux"
+import {createDemo1Action,createDemo2Action} from "../../redux/actions/testAction"
 import { Form, Input, Button } from "antd";
 import { UserOutlined, LockOutlined } from "@ant-design/icons";
 import "antd/dist/antd.less";
 import "./css/login.less";
 import logo from "./images/logo.png";
 class Login extends Component {
+  componentDidMount(){
+    console.log("Login----",this.props);
+  }
   onFinish = () => {
     //获取用户输入
     alert(1)
@@ -80,4 +85,11 @@ class Login extends Component {
     );
   }
 }
-export default Login;
+
+export default connect(
+  state=>({test:state.test}),
+  {
+    demo1:createDemo1Action,
+    demo2:createDemo2Action
+  }
+)(Login)

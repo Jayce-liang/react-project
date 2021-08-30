@@ -1,7 +1,7 @@
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 import { Component } from "react";
-import Admin from "./pages/admin/admin";
-import Login from "./pages/login/login";
+import Admin from "./containers/admin/admin";
+import Login from "./containers/login/login";
 
 class App extends Component {
   render() {

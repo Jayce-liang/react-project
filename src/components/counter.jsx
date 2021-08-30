@@ -1,8 +1,9 @@
 import { Component } from "react";
 //ui组件
 class Counter extends Component {
+  
   componentDidMount(){
-    console.log(this.props);
+    console.log("didmount");
   }
 
   //+

@@ -1,13 +1,11 @@
 import { Component } from "react";
 import { connect } from "react-redux";
+import {Redirect} from "react-router-dom"
 import { Form, Input, Button, message } from "antd";
 import { UserOutlined, LockOutlined } from "@ant-design/icons";
 import "antd/dist/antd.less";
 import { reqLogin } from "../../api";
-import {
-  createDemo1Action,
-  createDemo2Action,
-} from "../../redux/actions/testAction";
+import { createSaveUserInfoAction } from "../../redux/actions/login_action";
 import "./css/login.less";
 import logo from "./images/logo.png";
 
@@ -21,10 +19,13 @@ class Login extends Component {
     //   .catch((reason) => console.log(reason,"hahha"));
 
     let result = await reqLogin(userInput.username, userInput.password);
-    if(result.status === 0){
-      console.log(result.data);
-    }else{
-      message.warning(result.msg,1);
+    if (result.status === 0) {
+      //将数据交给redux管理
+      this.props.saveUserInfo(result.data)
+      //跳转到admin页面
+      this.props.history.replace("/admin");
+    } else {
+      message.warning(result.msg, 1);
     }
   };
 
@@ -44,6 +45,10 @@ class Login extends Component {
   };
 
   render() {
+    //如果之前已经登录过了，跳转到admin界面
+    if(this.props.isLogin){
+      return <Redirect to="/admin"/>
+    }
     return (
       <div className="login">
         <header>
@@ -102,7 +107,6 @@ class Login extends Component {
   }
 }
 
-export default connect((state) => ({ test: state.test }), {
-  demo1: createDemo1Action,
-  demo2: createDemo2Action,
+export default connect((state) => ({isLogin:state.userInfo.isLogin}), {
+  saveUserInfo: createSaveUserInfoAction,
 })(Login);

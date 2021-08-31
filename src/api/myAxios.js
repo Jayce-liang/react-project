@@ -1,9 +1,12 @@
 import axios from "axios";
-import { loadConfig } from "browserslist";
 import qs from "querystring";
-
+import nProgress from "nprogress";
+import "nprogress/nprogress.css";
 import { message } from "antd";
 import "antd/dist/antd.less";
+//配置进度条起始位置
+nProgress.configure({ minimum: 0.8 });
+
 //创建拦截器
 
 const myAxios = axios.create({
@@ -13,6 +16,7 @@ const myAxios = axios.create({
 
 //请求拦截器
 myAxios.interceptors.request.use((config) => {
+  nProgress.start()
   const { method } = config;
   if (method.toLowerCase === "post") {
     if (config.data instanceof Object) {
@@ -26,10 +30,14 @@ myAxios.interceptors.request.use((config) => {
 //响应拦截器
 myAxios.interceptors.response.use(
   (config) => {
+    nProgress.done();
+    nProgress.remove();
     return config.data;
   },
   (error) => {
     //antd提示错误
+    nProgress.done();
+    nProgress.remove();
     message.error(error.message, 1);
     return new Promise(() => {}); //中断promise链
   }

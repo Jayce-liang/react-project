@@ -1,21 +1,24 @@
 import { Component } from "react";
 import {connect} from "react-redux"
-import {createDemo1Action,createDemo2Action} from "../../redux/actions/testAction"
+import axios from "axios"
 import { Form, Input, Button } from "antd";
 import { UserOutlined, LockOutlined } from "@ant-design/icons";
 import "antd/dist/antd.less";
+import {createDemo1Action,createDemo2Action} from "../../redux/actions/testAction"
 import "./css/login.less";
 import logo from "./images/logo.png";
 class Login extends Component {
   componentDidMount(){
     console.log("Login----",this.props);
   }
-  onFinish = () => {
-    //获取用户输入
-    alert(1)
-    //   校验数据
+  onFinish = (userInput) => {
     // axios
+    axios.post("http://localhost:3000/login",userInput).then(
+      value=>console.log(value),
+      reason=>console.log(reason)
+    )
   };
+
   //自定义式校验规制
   pswValidator=(rule,value)=>{
     if(!value){

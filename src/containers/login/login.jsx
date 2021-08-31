@@ -1,45 +1,54 @@
 import { Component } from "react";
-import {connect} from "react-redux"
-import axios from "axios"
-import { Form, Input, Button } from "antd";
+import { connect } from "react-redux";
+import { Form, Input, Button, message } from "antd";
 import { UserOutlined, LockOutlined } from "@ant-design/icons";
 import "antd/dist/antd.less";
-import {createDemo1Action,createDemo2Action} from "../../redux/actions/testAction"
+import { reqLogin } from "../../api";
+import {
+  createDemo1Action,
+  createDemo2Action,
+} from "../../redux/actions/testAction";
 import "./css/login.less";
 import logo from "./images/logo.png";
+
 class Login extends Component {
-  componentDidMount(){
-    console.log("Login----",this.props);
-  }
-  onFinish = (userInput) => {
-    // axios
-    axios.post("http://localhost:3000/login",userInput).then(
-      value=>console.log(value),
-      reason=>console.log(reason)
-    )
+  componentDidMount() {}
+  onFinish = async (userInput) => {
+    //登录请求
+
+    // reqLogin(userInput.username, userInput.password)
+    //   .then((value) => console.log(value))
+    //   .catch((reason) => console.log(reason,"hahha"));
+
+    let result = await reqLogin(userInput.username, userInput.password);
+    if(result.status === 0){
+      console.log(result.data);
+    }else{
+      message.warning(result.msg,1);
+    }
   };
 
   //自定义式校验规制
-  pswValidator=(rule,value)=>{
-    if(!value){
-        return Promise.reject(new Error("密码必须输入"));
-    }else if(value.length>12){
-        return Promise.reject(new Error("密码最大为12位数字"));
-    }else if(value.length<4){
-        return Promise.reject(new Error("密码最小为4位数字"));
-    }else if(!(/^\w+$/).test(value)){
-        return Promise.reject(new Error("密码必须为 字母数字下划线 组成啊"));
-    }else{
-        return Promise.resolve();
+  pswValidator = (rule, value) => {
+    if (!value) {
+      return Promise.reject(new Error("密码必须输入"));
+    } else if (value.length > 12) {
+      return Promise.reject(new Error("密码最大为12位数字"));
+    } else if (value.length < 4) {
+      return Promise.reject(new Error("密码最小为4位数字"));
+    } else if (!/^\w+$/.test(value)) {
+      return Promise.reject(new Error("密码必须为 字母数字下划线 组成啊"));
+    } else {
+      return Promise.resolve();
     }
-  }
+  };
 
   render() {
     return (
       <div className="login">
         <header>
           <img src={logo} alt="logo" />
-          <h1>React Project</h1>
+          <h1>哈哈哈</h1>
         </header>
         <main>
           <h1>用户登录</h1>
@@ -52,10 +61,14 @@ class Login extends Component {
             <Form.Item
               name="username"
               //声明式校验规则
-              rules={[{ required: true, message: "请输入用户名" },
-              { max: 12, message: "用户名最大为12字段" },
-              { min: 4, message: "用户名最小为4个字段" },
-              { pattern:/^\w+$/, message: "用户名必须为 字母数字下划线 组成" }
+              rules={[
+                { required: true, message: "请输入用户名" },
+                { max: 12, message: "用户名最大为12字段" },
+                { min: 4, message: "用户名最小为4个字段" },
+                {
+                  pattern: /^\w+$/,
+                  message: "用户名必须为 字母数字下划线 组成",
+                },
               ]}
             >
               <Input
@@ -65,7 +78,7 @@ class Login extends Component {
             </Form.Item>
             <Form.Item
               name="password"
-              rules={[{validator:this.pswValidator}]}
+              rules={[{ validator: this.pswValidator }]}
             >
               <Input
                 prefix={<LockOutlined className="site-form-item-icon" />}
@@ -89,10 +102,7 @@ class Login extends Component {
   }
 }
 
-export default connect(
-  state=>({test:state.test}),
-  {
-    demo1:createDemo1Action,
-    demo2:createDemo2Action
-  }
-)(Login)
+export default connect((state) => ({ test: state.test }), {
+  demo1: createDemo1Action,
+  demo2: createDemo2Action,
+})(Login);

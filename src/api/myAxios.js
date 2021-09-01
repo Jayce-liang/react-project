@@ -1,4 +1,5 @@
 import axios from "axios";
+import store from "../redux/store"
 import qs from "querystring";
 import nProgress from "nprogress";
 import "nprogress/nprogress.css";
@@ -17,6 +18,11 @@ const myAxios = axios.create({
 //请求拦截器
 myAxios.interceptors.request.use((config) => {
   nProgress.start()
+  //获取token
+  const token=store.getState().userInfo.token;
+  if(token){
+    config.headers.Authorization = token;
+  }
   const { method } = config;
   if (method.toLowerCase === "post") {
     if (config.data instanceof Object) {

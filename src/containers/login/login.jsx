@@ -3,7 +3,6 @@ import { connect } from "react-redux";
 import {Redirect} from "react-router-dom"
 import { Form, Input, Button, message } from "antd";
 import { UserOutlined, LockOutlined } from "@ant-design/icons";
-import "antd/dist/antd.less";
 import { reqLogin } from "../../api";
 import { createSaveUserInfoAction } from "../../redux/actions/login_action";
 import "./css/login.less";

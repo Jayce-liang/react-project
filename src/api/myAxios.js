@@ -1,8 +1,9 @@
 import axios from "axios";
 import store from "../redux/store"
+import {createDeleteUserInfoAction} from "../redux/actions/logout_action"
 import qs from "querystring";
 import nProgress from "nprogress";
-import "nprogress/nprogress.css";
+import "nprogress/nprogress.css"; 
 import { message } from "antd";
 import "antd/dist/antd.less";
 //配置进度条起始位置
@@ -17,6 +18,7 @@ const myAxios = axios.create({
 
 //请求拦截器
 myAxios.interceptors.request.use((config) => {
+  console.log(config);
   nProgress.start()
   //获取token
   const token=store.getState().userInfo.token;
@@ -44,6 +46,12 @@ myAxios.interceptors.response.use(
     //antd提示错误
     nProgress.done();
     nProgress.remove();
+    console.log(1);
+    if(error.response&& error.response.status === 401){
+      message.error("身份过期！请重新登陆！",2);
+      store.dispatch(createDeleteUserInfoAction());
+      return;
+    }
     message.error(error.message, 1);
     return new Promise(() => {}); //中断promise链
   }

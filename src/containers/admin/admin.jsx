@@ -1,36 +1,60 @@
-import { Button } from "antd";
-import "antd/dist/antd.less";
+import { Button, Layout } from "antd";
 import { Component } from "react";
 import { connect } from "react-redux";
-import { Redirect } from "react-router-dom";
-import {createDeleteUserInfoAction} from "../../redux/actions/logout_action.js"
-import {reqCategoryList} from "../../api"
+import { Redirect, Route, NavLink, Switch } from "react-router-dom";
+import { createDeleteUserInfoAction } from "../../redux/actions/logout_action.js";
+import { reqCategoryList } from "../../api";
+import Home from "../../components/home/home.jsx";
+import Category from "../category/category";
+import Bar from "../bar/bar";
+import Line from "../line/line";
+import Pie from "../pie/pie";
+import Product from "../product/product";
+import User from "../user/user";
+import Role from "../role/role";
+import Header from "./header/header";
+import "../admin/css/admin.less";
+
+const { Footer, Sider, Content } = Layout;
+
 class Admin extends Component {
   componentDidMount() {
     console.log("admin----", this);
   }
-  logout=()=>{
+  logout = () => {
     this.props.deleteUserInfo();
-  }
-  demo=async()=>{
-    let result=await reqCategoryList();
-    console.log(result);
-  }
+  };
   //在render里若想实现跳转 最好用redirect
   render() {
-    const { isLogin } = this.props.userInfo
+    const { isLogin } = this.props.userInfo;
     if (!isLogin) {
-      this.props.history.replace("/login")
-      return <Redirect to="/login" />
-    }else return (
-      <div>
-        <h1>我是{this.props.userInfo.user.username}</h1>
-        <Button type="primary" onClick={this.logout}>退出</Button>
-        <Button type="primary" onClick={this.demo}>demo</Button>
-      </div>
-    )
+      this.props.history.replace("/login");
+      return <Redirect to="/login" />;
+    } else
+      return (
+        <Layout className="admin">
+          <Sider className="sider">Sider</Sider>
+          <Layout>
+            <Header></Header>
+            <Content className="content">
+              <Switch>
+                <Route path="/admin/home" component={Home} />
+                <Route path="/admin/prod_about/category" component={Category} />
+                <Route path="/admin/prod_about/product" component={Product} />
+                <Route path="/admin/role" component={Role} />
+                <Route path="/admin/user" component={User} />
+                <Route path="/admin/charts/pie" component={Pie} />
+                <Route path="/admin/charts/line" component={Line} />
+                <Route path="/admin/charts/bar" component={Bar} />
+                <Redirect to="/admin/home"/>
+              </Switch>
+            </Content>
+            <Footer className="footer">React + AntD</Footer>
+          </Layout>
+        </Layout>
+      );
   }
 }
 export default connect((state) => ({ userInfo: state.userInfo }), {
-    deleteUserInfo:createDeleteUserInfoAction
+  deleteUserInfo: createDeleteUserInfoAction,
 })(Admin);

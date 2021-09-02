@@ -40,7 +40,7 @@ class Nav_left extends Component {
         <header className="navLeft_header">
           <img src={logo} alt="logo" />
         </header>
-        <Menu
+        <Menu className="menu"
           defaultSelectedKeys={this.props.location.pathname.split("/").reverse()[0] === "admin" ? "home":this.props.location.pathname.split("/").reverse()[0]}
           defaultOpenKeys={this.props.location.pathname.split("/").splice(2)}
           mode="inline"

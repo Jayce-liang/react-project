@@ -7,9 +7,7 @@ export const reqLogin = (username, password) =>
 
 //发起商品列表请求
 export const reqCategoryList = () =>
-  myAxios.get(`${BASE_URL}/manage/category/list`, (err, data) => {
-    console.log(data);
-  });
+  myAxios.get(`${BASE_URL}/manage/category/list`);
 
 //weather
 // export const reqWeather = () =>

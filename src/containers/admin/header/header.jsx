@@ -1,7 +1,7 @@
 import { Component } from "react";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
-import { Button, Modal } from "antd";
+import { Button, Modal,Divider } from "antd";
 import {
   FullscreenOutlined,
   FullscreenExitOutlined,
@@ -93,7 +93,7 @@ class Header extends Component {
             退出
           </Button>
         </div>
-
+        <Divider className="divider"></Divider>
         <div className="header_bottom">
           <div className="header_bottom_left">
             {this.props.title || this.state.title}

@@ -1,9 +1,10 @@
-import { Button, Layout } from "antd";
+import {Layout } from "antd";
 import { Component } from "react";
 import { connect } from "react-redux";
-import { Redirect, Route, NavLink, Switch } from "react-router-dom";
+import { Redirect, Route, Switch } from "react-router-dom";
 import { createDeleteUserInfoAction } from "../../redux/actions/logout_action.js";
-import { reqCategoryList } from "../../api";
+// import { reqCategoryList } from "../../api";
+import NavLeft from "./nav_left/nav_left.jsx";
 import Home from "../../components/home/home.jsx";
 import Category from "../category/category";
 import Bar from "../bar/bar";
@@ -18,9 +19,6 @@ import "../admin/css/admin.less";
 const { Footer, Sider, Content } = Layout;
 
 class Admin extends Component {
-  componentDidMount() {
-    console.log("admin----", this);
-  }
   logout = () => {
     this.props.deleteUserInfo();
   };
@@ -28,12 +26,14 @@ class Admin extends Component {
   render() {
     const { isLogin } = this.props.userInfo;
     if (!isLogin) {
-      this.props.history.replace("/login");
+      // this.props.history.replace("/login");
       return <Redirect to="/login" />;
     } else
       return (
         <Layout className="admin">
-          <Sider className="sider">Sider</Sider>
+          <Sider className="sider">
+            <NavLeft/>
+          </Sider>
           <Layout>
             <Header></Header>
             <Content className="content">

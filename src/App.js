@@ -1,4 +1,4 @@
-import { BrowserRouter, Route, Switch } from "react-router-dom";
+import { BrowserRouter, Route, Switch,Redirect } from "react-router-dom";
 import { Component } from "react";
 import Admin from "./containers/admin/admin";
 import Login from "./containers/login/login";
@@ -11,7 +11,7 @@ class App extends Component {
           <Switch>
             <Route path="/login" component={Login} />
             <Route path="/admin" component={Admin} />
-            <Route path="/" component={Admin} />
+            <Redirect to="/admin/home"/>
           </Switch>
         </div>
       </BrowserRouter>

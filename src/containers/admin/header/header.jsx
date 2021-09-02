@@ -1,5 +1,6 @@
 import { Component } from "react";
 import { connect } from "react-redux";
+import { withRouter } from "react-router-dom";
 import { Button, Modal } from "antd";
 import {
   FullscreenOutlined,
@@ -8,14 +9,15 @@ import {
 } from "@ant-design/icons";
 import dayjs from "dayjs";
 import screenfull from "screenfull";
-import { reqWeather } from "../../../api/index";
 import { createDeleteUserInfoAction } from "../../../redux/actions/logout_action";
 import "./css/header.less";
+import menuList from "../../../config/menuConfig";
 
 class Header extends Component {
   state = {
     isFull: false,
     date: dayjs().format("YYYY-MM-DD HH:mm:ss"),
+    title: "",
   };
 
   componentDidMount() {
@@ -25,18 +27,40 @@ class Header extends Component {
         isFull,
       });
     });
-    setInterval(() => {
+    this.timer = setInterval(() => {
       this.setState({
         date: dayjs().format("YYYY-MM-DD HH:mm:ss"),
       });
     }, 500);
-    reqWeather();
+    //每次挂载后保存title
+    this.getTitle();
   }
 
+  componentWillUnmount() {
+    //取消定时器
+    clearInterval(this.timer);
+  }
   fullScreen = () => {
     screenfull.toggle();
   };
+  getTitle = () => {
+    let pathKey = this.props.location.pathname.split("/").reverse()[0];
+    let title = "";
 
+    menuList.forEach((item) => {
+      if (item.children instanceof Array) {
+        let temp = item.children.find((citem) => {
+          return citem.key === pathKey;
+        });
+        if (temp) title = temp.title;
+      } else {
+        if (pathKey === item.key) title = item.title;
+      }
+    });
+    this.setState({
+      title,
+    });
+  };
   logout = () => {
     Modal.confirm({
       title: "确定退出？",
@@ -71,14 +95,12 @@ class Header extends Component {
         </div>
 
         <div className="header_bottom">
-          <div className="header_bottom_left">柱状图</div>
+          <div className="header_bottom_left">
+            {this.props.title || this.state.title}
+          </div>
           <div className="header_bottom_right">
             {this.state.date}
-            <img
-              src="http://www.weather.com.cn/m/i/weatherpic/29x20/d0.gif"
-              alt="tianqi"
-            />
-            qing 26du
+            <img src="" alt="tianqi" />晴
           </div>
         </div>
       </header>
@@ -86,6 +108,9 @@ class Header extends Component {
   }
 }
 
-export default connect((state) => ({ userInfo: state.userInfo }), {
-  deletUserInfo: createDeleteUserInfoAction,
-})(Header);
+export default connect(
+  (state) => ({ userInfo: state.userInfo, title: state.title }),
+  {
+    deletUserInfo: createDeleteUserInfoAction,
+  }
+)(withRouter(Header));

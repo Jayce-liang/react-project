@@ -6,7 +6,7 @@ import { UserOutlined, LockOutlined } from "@ant-design/icons";
 import { reqLogin } from "../../api";
 import { createSaveUserInfoAction } from "../../redux/actions/login_action";
 import "./css/login.less";
-import logo from "./images/logo.png";
+import logo from "../../static/images/logo.png";
 
 class Login extends Component {
   componentDidMount() {}
@@ -46,7 +46,7 @@ class Login extends Component {
   render() {
     //如果之前已经登录过了，跳转到admin界面
     if(this.props.isLogin){
-      return <Redirect to="/admin"/>
+      return <Redirect to="/admin/home"/>
     }
     return (
       <div className="login">

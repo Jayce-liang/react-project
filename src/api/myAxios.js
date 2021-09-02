@@ -18,7 +18,6 @@ const myAxios = axios.create({
 
 //请求拦截器
 myAxios.interceptors.request.use((config) => {
-  console.log(config);
   nProgress.start()
   //获取token
   const token=store.getState().userInfo.token;

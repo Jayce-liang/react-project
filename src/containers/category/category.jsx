@@ -11,12 +11,11 @@ class Category extends Component {
     operationType: "",
   };
   formRef = React.createRef();
+  
   componentDidMount() {
     this.getCategoryList();
   }
-  onFinish = () => {
-    console.log(this.formRef);
-  };
+
   //设置模态框
   setIsModalVisible = (visible, operationType) => {
     this.setState({
@@ -24,18 +23,36 @@ class Category extends Component {
       operationType,
     });
   };
+
   showAddModal = () => {
     this.setIsModalVisible(true, "add");
   };
+
   showUpdateModal = () => {
     this.setIsModalVisible(true, "update");
   };
-  handleOk = () => {
-    this.onFinish();
+
+  handleOk = async () => {
+    // 验证是否为空
+    try{
+      let reasult =await this.formRef.current.validateFields(["categoryValue"]);
+      console.log(reasult);
+    }catch{
+      message.error("不能为空！",2);
+      return;
+    }
+    //不知道为什么下面then的value为空!!!   已解决，使用then方法时需要给validateFields传参
+    // this.formRef.current
+    //   .validateFields(["categoryValue"])
+    //   .then((values) => {console.log(values);})
+    //   .catch((errorInfo) => {return ;});
+
+    this.formRef.current.resetFields();
     this.setIsModalVisible(false);
   };
 
   handleCancel = () => {
+    this.formRef.current.resetFields();
     this.setIsModalVisible(false);
   };
   //获取category数据
@@ -61,7 +78,11 @@ class Category extends Component {
         align: "center",
         render: () => {
           return (
-            <Button type="primary" size="maddle" onClick={this.showUpdateModal}>
+            <Button
+              htmlType="submit"
+              size="maddle"
+              onClick={this.showUpdateModal}
+            >
               修改分类
             </Button>
           );
@@ -90,6 +111,7 @@ class Category extends Component {
           ;
         </Card>
         <Modal
+          maskClosable={false}
           title={this.state.operationType === "add" ? "新增分类" : "更新分类"}
           visible={this.state.visible}
           okText="确定"
@@ -97,15 +119,19 @@ class Category extends Component {
           onOk={this.handleOk}
           onCancel={this.handleCancel}
         >
-          <Form ref={this.formRef}
-            onFinish={this.onFinish}
-            name="normal_login"
+          <Form
+            ref={this.formRef}
+            name="categoryForm"
+            initialValues={{ remember: true }}
           >
             <Form.Item
-              name="username"
-              rules={[{ required: true, message: "不能为空" }]}
+              required
+              name="categoryValue"
+              rules={[
+                { required: true, whitespace: true, message: "不能为空" },
+              ]}
             >
-              <Input placeholder="请输入分类名" />
+              <Input placeholder="请输入分类名" autoFocus={true} />
             </Form.Item>
           </Form>
         </Modal>

@@ -6,6 +6,7 @@ import {
   FullscreenOutlined,
   FullscreenExitOutlined,
   ExclamationCircleOutlined,
+  createFromIconfontCN
 } from "@ant-design/icons";
 import dayjs from "dayjs";
 import screenfull from "screenfull";
@@ -76,6 +77,9 @@ class Header extends Component {
   };
 
   render() {
+    const IconFont = createFromIconfontCN({
+      scriptUrl: '//at.alicdn.com/t/font_8d5l8fzk5b87iudi.js',
+    });
     return (
       <header>
         <div className="header_top">
@@ -89,8 +93,8 @@ class Header extends Component {
           <span className="username">
             欢迎,{this.props.userInfo.user.username}
           </span>
-          <Button type="primary" size="middle" onClick={this.logout}>
-            退出
+          <Button type="primary" size="middle" onClick={this.logout} style={{fontSize:"16px",textAlign:"center",backgroundColor:"#ff461f"}}>
+          <IconFont type="icon-tuichu" />退出
           </Button>
         </div>
         <Divider className="divider"></Divider>

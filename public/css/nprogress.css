@@ -1,0 +1,13 @@
+/* 覆盖顶部进度条默认颜色*/
+#nprogress .bar {
+  background: #02b665!important;
+}
+#nprogress .peg {
+  box-shadow: 0 0 10px #02b665, 0 0 5px #02b665!important;
+}
+#nprogress .spinner-icon {
+  border: solid 2px transparent;
+
+  border-top-color: #02b665!important;
+  border-left-color: #02b665!important
+}

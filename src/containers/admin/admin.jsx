@@ -3,7 +3,6 @@ import { Component } from "react";
 import { connect } from "react-redux";
 import { Redirect, Route, Switch } from "react-router-dom";
 import { createDeleteUserInfoAction } from "../../redux/actions/logout_action.js";
-// import { reqCategoryList } from "../../api";
 import NavLeft from "./nav_left/nav_left.jsx";
 import Home from "../../components/home/home.jsx";
 import Category from "../category/category";

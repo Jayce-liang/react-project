@@ -3,7 +3,6 @@ import { Card, Button, Table, message, Modal, Form, Input } from "antd";
 import { PlusOutlined } from "@ant-design/icons";
 import { reqCategoryList, reqAddCategory,reqUpdateCategory } from "../../api/index";
 import { PAGE_SIZE } from "../../config/index";
-import "./css/category.less"
 class Category extends Component {
   state = {
     categoryList: [],
@@ -136,9 +135,9 @@ class Category extends Component {
           style={{ width: "100%", height: "100%"}}
           title="Category card"
           extra={
-            <Button type="primary" size="large" onClick={this.showAddModal}>
+            <Button type="primary"  onClick={this.showAddModal}>
               <PlusOutlined />
-              添加
+              添加分类
             </Button>
           }
         >

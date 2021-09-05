@@ -1,16 +1,15 @@
 import axios from "axios";
-import store from "../redux/store"
-import {createDeleteUserInfoAction} from "../redux/actions/logout_action"
+import store from "../redux/store";
+import { createDeleteUserInfoAction } from "../redux/actions/logout_action";
 import qs from "querystring";
 import nProgress from "nprogress";
-import "nprogress/nprogress.css"; 
+import "nprogress/nprogress.css";
 import { message } from "antd";
 import "antd/dist/antd.less";
-//配置进度条起始位置
-nProgress.configure({ minimum: 0.8 });
+
+nProgress.configure({ minimum: 0.7 });
 
 //创建拦截器
-
 const myAxios = axios.create({
   //设置超时
   timeout: 5000,
@@ -18,10 +17,10 @@ const myAxios = axios.create({
 
 //请求拦截器
 myAxios.interceptors.request.use((config) => {
-  nProgress.start()
+  nProgress.start();
   //获取token
-  const token=store.getState().userInfo.token;
-  if(token){
+  const token = store.getState().userInfo.token;
+  if (token) {
     config.headers.Authorization = token;
   }
   const { method } = config;
@@ -38,16 +37,13 @@ myAxios.interceptors.request.use((config) => {
 myAxios.interceptors.response.use(
   (config) => {
     nProgress.done();
-    nProgress.remove();
     return config.data;
   },
   (error) => {
     //antd提示错误
     nProgress.done();
-    nProgress.remove();
-    console.log(1);
-    if(error.response&& error.response.status === 401){
-      message.error("身份过期！请重新登陆！",2);
+    if (error.response && error.response.status === 401) {
+      message.error("身份过期！请重新登陆！", 2);
       store.dispatch(createDeleteUserInfoAction());
       return;
     }

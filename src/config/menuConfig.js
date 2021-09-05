@@ -5,6 +5,7 @@ import {
   AppstoreOutlined,
   AreaChartOutlined,
   SafetyOutlined,
+  HomeOutlined,
   PieChartOutlined,
   UserOutlined,
   ToolOutlined,
@@ -17,7 +18,7 @@ const menuList = [
     title: "首页", //* 菜单标题名称
     key: "home", //展开的key
     path: "/admin/home", //* 对应的path
-    icon: PieChartOutlined, //* 图标组件名称
+    icon: HomeOutlined, //* 图标组件名称
   },
   {
     title: "商品",

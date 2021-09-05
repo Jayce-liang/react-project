@@ -1,6 +1,6 @@
 //项目中所有请求从这里发出
 import myAxios from "./myAxios.js";
-import { BASE_URL} from "../config/index";
+import { BASE_URL } from "../config/index";
 //发起登录请求
 export const reqLogin = (username, password) =>
   myAxios.post(`${BASE_URL}/login`, { username, password });
@@ -9,6 +9,7 @@ export const reqLogin = (username, password) =>
 export const reqCategoryList = () =>
   myAxios.get(`${BASE_URL}/manage/category/list`);
 
+  
 //weather
 // export const reqWeather = () =>
 //   axios.get(`${A_MAP_URL}/v3/weather/weatherInfo`, {
@@ -23,3 +24,12 @@ export const reqCategoryList = () =>
 //   let result=JSON.stringify(data)
 // console.log(result);
 // });
+
+//发起新增分类请求
+export const reqAddCategory = ({categoryName}) =>
+  myAxios.post(`${BASE_URL}/manage/category/add`, {categoryName});
+
+//发起更新分类请求
+export const reqUpdateCategory = ({categoryName,categoryId}) =>
+  myAxios.post(`${BASE_URL}/manage/category/update`, {categoryName,categoryId});
+

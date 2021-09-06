@@ -1,31 +1,41 @@
 import { Component } from "react";
 import { Card, Button, message, Select, Input, Tooltip, Table } from "antd";
 import { PlusSquareOutlined, SearchOutlined } from "@ant-design/icons";
-import { reqProductList, reqUpdateProdStatus,reqSearchProduct} from "../../api/index";
+import {
+  reqProductList,
+  reqUpdateProdStatus,
+  reqSearchProduct,
+} from "../../api/index";
 import { PAGE_SIZE } from "../../config/index";
-import { tSThisType } from "@babel/types";
 const { Option } = Select;
 class Product extends Component {
   state = {
-    total: "",//数据总数
-    current: 1,//当前在哪一页
-    productList: [],//数据
-    keyword:"",//搜索关键字
-    searchType:"productName",//搜索类型
+    total: "", //数据总数
+    current: 1, //当前在哪一页
+    productList: [], //数据
+    keyword: "", //搜索关键字
+    searchType: "productName", //搜索类型
   };
   componentDidMount() {
     this.getProductList();
   }
   getProductList = async (pageNum = 1) => {
-    let reasult = await reqProductList(pageNum, PAGE_SIZE);
-    let { status, data, msg } = reasult;
+    let reasult;
+    if (this.isSearch) {
+      const { searchType, keyword } = this.state;
+      reasult = await reqSearchProduct(pageNum, PAGE_SIZE, searchType, keyword);
+    } else {
+      reasult = await reqProductList(pageNum, PAGE_SIZE);
+    }
+
+    let { status, data } = reasult;
     if (status === 0)
       this.setState({
         total: data.total,
         productList: data.list,
         current: data.pageNum,
       });
-    else message.error("请求数据失败",2);
+    else message.error("请求数据失败", 2);
   };
 
   updateProdStatus = async (item) => {
@@ -47,16 +57,11 @@ class Product extends Component {
       });
     } else message.error("更新状态失败", 2);
   };
-  
-  search=async()=>{
-    const {searchType,keyword}=this.state;
-    const reasult=await reqSearchProduct(1,PAGE_SIZE,searchType,keyword);
-    const {data,status,total} = reasult;
-    if(status === 0) {
-      this.setState({productList:data.list,total});
-    }
-    else message.error("搜索失败",2);
-  }
+
+  search = async () => {
+    this.isSearch = true;
+    this.getProductList();
+  };
 
   render() {
     const dataSource = this.state.productList;
@@ -116,9 +121,27 @@ class Product extends Component {
         key: "opera",
         render: () => (
           <>
-            <Button type="link">详情</Button>
+            <Button
+              type="link"
+              onClick={() =>
+                this.props.history.push(
+                  "/admin/prod_about/product/detail/123456"
+                )
+              }
+            >
+              详情
+            </Button>
             <br />
-            <Button type="link">修改</Button>
+            <Button
+              type="link"
+              onClick={() =>
+                this.props.history.push(
+                  "/admin/prod_about/product/add_update/78945613"
+                )
+              }
+            >
+              修改
+            </Button>
           </>
         ),
       },
@@ -128,7 +151,10 @@ class Product extends Component {
         <Card
           title={
             <>
-              <Select defaultValue="productName" onChange={(value)=>this.setState({searchType:value})}>
+              <Select
+                defaultValue="productName"
+                onChange={(value) => this.setState({ searchType: value })}
+              >
                 <Option value="productName">按名称搜索</Option>
                 <Option value="productDesc">按描述搜索</Option>
               </Select>
@@ -136,17 +162,30 @@ class Product extends Component {
                 placeholder="Basic usage"
                 allowClear
                 style={{ width: 250, margin: "0 20px" }}
-                onChange={(event)=>this.setState({keyword:event.target.value})}
+                onChange={(event) =>
+                  this.setState({ keyword: event.target.value })
+                }
               />
               <Tooltip title="search">
-                <Button type="primary" icon={<SearchOutlined />} onClick={this.search}>
+                <Button
+                  type="primary"
+                  icon={<SearchOutlined />}
+                  onClick={this.search}
+                >
                   Search
                 </Button>
               </Tooltip>
             </>
           }
           extra={
-            <Button type="primary">
+            <Button
+              type="primary"
+              onClick={() =>
+                this.props.history.push(
+                  "/admin/prod_about/product/add_update/qewqeqweqwe"
+                )
+              }
+            >
               <PlusSquareOutlined />
               添加商品
             </Button>

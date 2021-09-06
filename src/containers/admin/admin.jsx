@@ -1,4 +1,4 @@
-import { Layout } from "antd";
+import { Layout} from "antd";
 import { Component } from "react";
 import { connect } from "react-redux";
 import { Redirect, Route, Switch } from "react-router-dom";
@@ -10,6 +10,8 @@ import Bar from "../bar/bar";
 import Line from "../line/line";
 import Pie from "../pie/pie";
 import Product from "../product/product";
+import Detail from "../product/detail";
+import AddUpdate from "../product/add_update";
 import User from "../user/user";
 import Role from "../role/role";
 import Header from "./header/header";
@@ -41,13 +43,17 @@ class Admin extends Component {
           >
             <NavLeft />
           </Sider>
-          <Layout style={{ marginLeft: 200 }}>
+          <Layout style={{ marginLeft: 200, minHeight: "100vh" }}>
             <Header></Header>
-            <Content className="content" style={{ margin: '10px 16px 0'}}>
+            <Content className="content" style={{ margin: "10px 16px 0" }}>
               <Switch>
                 <Route path="/admin/home" component={Home} />
                 <Route path="/admin/prod_about/category" component={Category} />
-                <Route path="/admin/prod_about/product" component={Product} />
+                <Route path="/admin/prod_about/product" component={Product}  exact/>
+                <Route path="/admin/prod_about/product/detail" component={Detail} exact/>
+                <Route path="/admin/prod_about/product/add_update" component={AddUpdate} exact/>
+                <Route path="/admin/prod_about/product/detail/:id" component={Detail}/>
+                <Route path="/admin/prod_about/product/add_update/:id" component={AddUpdate}/>
                 <Route path="/admin/role" component={Role} />
                 <Route path="/admin/user" component={User} />
                 <Route path="/admin/charts/pie" component={Pie} />
@@ -56,7 +62,7 @@ class Admin extends Component {
                 <Redirect to="/admin/home" />
               </Switch>
             </Content>
-            <Footer className="footer">Ant Design ©2018 Created by Ant UED</Footer>
+            <Footer className="footer" style={{maxHeight:80}}>React - Ant Design ©2021 Creat By Jayce</Footer>
           </Layout>
         </Layout>
       );

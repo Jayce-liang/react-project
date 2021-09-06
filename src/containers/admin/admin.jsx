@@ -1,4 +1,4 @@
-import {Layout } from "antd";
+import { Layout } from "antd";
 import { Component } from "react";
 import { connect } from "react-redux";
 import { Redirect, Route, Switch } from "react-router-dom";
@@ -30,12 +30,20 @@ class Admin extends Component {
     } else
       return (
         <Layout className="admin">
-          <Sider className="sider">
-            <NavLeft/>
+          <Sider
+            className="sider"
+            style={{
+              overflow: "auto",
+              height: "100vh",
+              position: "fixed",
+              left: 0,
+            }}
+          >
+            <NavLeft />
           </Sider>
-          <Layout>
+          <Layout style={{ marginLeft: 200 }}>
             <Header></Header>
-            <Content className="content">
+            <Content className="content" style={{ margin: '10px 16px 0'}}>
               <Switch>
                 <Route path="/admin/home" component={Home} />
                 <Route path="/admin/prod_about/category" component={Category} />
@@ -45,10 +53,10 @@ class Admin extends Component {
                 <Route path="/admin/charts/pie" component={Pie} />
                 <Route path="/admin/charts/line" component={Line} />
                 <Route path="/admin/charts/bar" component={Bar} />
-                <Redirect to="/admin/home"/>
+                <Redirect to="/admin/home" />
               </Switch>
             </Content>
-            <Footer className="footer">React + AntD</Footer>
+            <Footer className="footer">Ant Design ©2018 Created by Ant UED</Footer>
           </Layout>
         </Layout>
       );

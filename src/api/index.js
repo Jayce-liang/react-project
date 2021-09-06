@@ -9,7 +9,6 @@ export const reqLogin = (username, password) =>
 export const reqCategoryList = () =>
   myAxios.get(`${BASE_URL}/manage/category/list`);
 
-  
 //weather
 // export const reqWeather = () =>
 //   axios.get(`${A_MAP_URL}/v3/weather/weatherInfo`, {
@@ -26,10 +25,31 @@ export const reqCategoryList = () =>
 // });
 
 //发起新增分类请求
-export const reqAddCategory = ({categoryName}) =>
-  myAxios.post(`${BASE_URL}/manage/category/add`, {categoryName});
+export const reqAddCategory = ({ categoryName }) =>
+  myAxios.post(`${BASE_URL}/manage/category/add`, { categoryName });
 
 //发起更新分类请求
-export const reqUpdateCategory = ({categoryName,categoryId}) =>
-  myAxios.post(`${BASE_URL}/manage/category/update`, {categoryName,categoryId});
+export const reqUpdateCategory = ({ categoryName, categoryId }) =>
+  myAxios.post(`${BASE_URL}/manage/category/update`, {
+    categoryName,
+    categoryId,
+  });
 
+//发起商品数据
+export const reqProductList = (pageNum, pageSize) =>
+  myAxios.get(`${BASE_URL}/manage/product/list`, {
+    params: { pageNum, pageSize },
+  });
+
+//请求更新商品状态
+export const reqUpdateProdStatus = (productId, status) =>
+  myAxios.post(`${BASE_URL}/manage/product/updateStatus`, {
+    productId,
+    status,
+  });
+
+//搜索
+export const reqSearchProduct = (pageNum, pageSize, searchType, keyword) =>
+  myAxios.get(`${BASE_URL}/manage/product/search`, {
+    params: { pageNum, pageSize, [searchType]: keyword },
+  });

@@ -1,31 +1,70 @@
 import { Component } from "react";
 import { Card, Button, message, Select, Input, Tooltip, Table } from "antd";
 import { PlusSquareOutlined, SearchOutlined } from "@ant-design/icons";
+import { reqProductList, reqUpdateProdStatus,reqSearchProduct} from "../../api/index";
+import { PAGE_SIZE } from "../../config/index";
+import { tSThisType } from "@babel/types";
 const { Option } = Select;
 class Product extends Component {
+  state = {
+    total: "",//数据总数
+    current: 1,//当前在哪一页
+    productList: [],//数据
+    keyword:"",//搜索关键字
+    searchType:"productName",//搜索类型
+  };
+  componentDidMount() {
+    this.getProductList();
+  }
+  getProductList = async (pageNum = 1) => {
+    let reasult = await reqProductList(pageNum, PAGE_SIZE);
+    let { status, data, msg } = reasult;
+    if (status === 0)
+      this.setState({
+        total: data.total,
+        productList: data.list,
+        current: data.pageNum,
+      });
+    else message.error("请求数据失败",2);
+  };
+
+  updateProdStatus = async (item) => {
+    let { _id, status } = item;
+    if (status === 1) status = 2;
+    else status = 1;
+    const reasult = await reqUpdateProdStatus(_id, status);
+    if (reasult.status === 0) {
+      message.success("更新状态成功", 2);
+      let productList = [...this.state.productList];
+      productList = productList.map((item) => {
+        if (item._id === _id) {
+          item.status = status;
+        }
+        return item;
+      });
+      this.setState({
+        productList,
+      });
+    } else message.error("更新状态失败", 2);
+  };
+  
+  search=async()=>{
+    const {searchType,keyword}=this.state;
+    const reasult=await reqSearchProduct(1,PAGE_SIZE,searchType,keyword);
+    const {data,status,total} = reasult;
+    if(status === 0) {
+      this.setState({productList:data.list,total});
+    }
+    else message.error("搜索失败",2);
+  }
+
   render() {
-    const dataSource = [
-      {
-        key: "1",
-        name: "华为",
-        age: 32,
-        desc: "买不起",
-        price: "99999999",
-        status: "在售",
-      },
-      {
-        key: "2",
-        name: "小米",
-        desc: "系统bug多",
-        price: "2999",
-        status: "在售",
-      },
-    ];
+    const dataSource = this.state.productList;
 
     const columns = [
       {
         title: "商品名称",
-        width:"20%",
+        width: "20%",
         dataIndex: "name",
         key: "name",
       },
@@ -36,7 +75,7 @@ class Product extends Component {
       },
       {
         title: "价格",
-        width:"5%",
+        width: "10%",
         align: "center",
         dataIndex: "price",
         key: "price",
@@ -44,25 +83,34 @@ class Product extends Component {
       },
       {
         title: "状态",
-        width:"10%",
+        width: "10%",
         align: "center",
-        dataIndex: "status",
+        // dataIndex: "status",
         key: "status",
-        render: (status) => (
+        render: (item) => (
           <>
-            <Button type="primary" style={{ backgroundColor: "#ff4e20" }}>
-              下架
+            <Button
+              type={item.status === 1 ? "danger" : "primary"}
+              onClick={() => this.updateProdStatus(item)}
+            >
+              {item.status === 1 ? "停售" : "上架"}
             </Button>
             <br />
-            <Button type="text" style={{ color: "#21a675" }}>
-              {status}
+            <Button
+              type="text"
+              disabled
+              style={
+                item.status === 1 ? { color: "#41b883" } : { color: "#ff4e20" }
+              }
+            >
+              {item.status === 1 ? "在售" : "已下架"}
             </Button>
           </>
         ),
       },
       {
         title: "操作",
-        width:"10%",
+        width: "10%",
         align: "center",
         dataIndex: "opera",
         key: "opera",
@@ -80,17 +128,18 @@ class Product extends Component {
         <Card
           title={
             <>
-              <Select defaultValue="name">
-                <Option value="name">按名称搜索</Option>
-                <Option value="desc">按描述搜索</Option>
+              <Select defaultValue="productName" onChange={(value)=>this.setState({searchType:value})}>
+                <Option value="productName">按名称搜索</Option>
+                <Option value="productDesc">按描述搜索</Option>
               </Select>
               <Input
                 placeholder="Basic usage"
                 allowClear
                 style={{ width: 250, margin: "0 20px" }}
+                onChange={(event)=>this.setState({keyword:event.target.value})}
               />
               <Tooltip title="search">
-                <Button type="primary" loading icon={<SearchOutlined />}>
+                <Button type="primary" icon={<SearchOutlined />} onClick={this.search}>
                   Search
                 </Button>
               </Tooltip>
@@ -104,7 +153,18 @@ class Product extends Component {
           }
           style={{ width: "100%" }}
         >
-          <Table dataSource={dataSource} columns={columns} />
+          <Table
+            dataSource={dataSource}
+            columns={columns}
+            rowKey="_id"
+            sticky
+            pagination={{
+              total: this.state.total,
+              pageSize: PAGE_SIZE,
+              current: this.state.current,
+              onChange: this.getProductList,
+            }}
+          />
         </Card>
       </>
     );

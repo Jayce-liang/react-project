@@ -9,7 +9,6 @@ import "../nav_left/css/index.less";
 import logo from "../../../static/images/logo.png";
 
 const { SubMenu } = Menu;
-
 class Nav_left extends Component {
   componentDidMount(){
     console.log();
@@ -36,7 +35,7 @@ class Nav_left extends Component {
   };
   render() {
     return (
-      <div>
+      <div >
         <header className="navLeft_header">
           <img src={logo} alt="logo" />
         </header>

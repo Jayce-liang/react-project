@@ -53,3 +53,9 @@ export const reqSearchProduct = (pageNum, pageSize, searchType, keyword) =>
   myAxios.get(`${BASE_URL}/manage/product/search`, {
     params: { pageNum, pageSize, [searchType]: keyword },
   });
+
+//根据id获取商品列表
+export const reqProductByID = (productId) =>
+  myAxios.get(`${BASE_URL}/manage/product/info`, {
+    params: {productId},
+  });

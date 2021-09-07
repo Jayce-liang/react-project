@@ -1,6 +1,8 @@
 import { Component } from "react";
 import { Card, Button, message, Select, Input, Tooltip, Table } from "antd";
 import { PlusSquareOutlined, SearchOutlined } from "@ant-design/icons";
+import {connect} from "react-redux"
+import {creatProductAction} from "../../redux/actions/product_action"
 import {
   reqProductList,
   reqUpdateProdStatus,
@@ -15,6 +17,7 @@ class Product extends Component {
     productList: [], //数据
     keyword: "", //搜索关键字
     searchType: "productName", //搜索类型
+    isLoading: true,
   };
   componentDidMount() {
     this.getProductList();
@@ -29,13 +32,15 @@ class Product extends Component {
     }
 
     let { status, data } = reasult;
-    if (status === 0)
+    if (status === 0) {
       this.setState({
         total: data.total,
         productList: data.list,
         current: data.pageNum,
+        isLoading: false,
       });
-    else message.error("请求数据失败", 2);
+      this.props.saveProduct(data.list)
+    } else message.error("请求数据失败", 2);
   };
 
   updateProdStatus = async (item) => {
@@ -117,15 +122,15 @@ class Product extends Component {
         title: "操作",
         width: "10%",
         align: "center",
-        dataIndex: "opera",
+        // dataIndex: "opera",
         key: "opera",
-        render: () => (
+        render: (item) => (
           <>
             <Button
               type="link"
               onClick={() =>
                 this.props.history.push(
-                  "/admin/prod_about/product/detail/123456"
+                  `/admin/prod_about/product/detail/${item._id}`
                 )
               }
             >
@@ -136,7 +141,7 @@ class Product extends Component {
               type="link"
               onClick={() =>
                 this.props.history.push(
-                  "/admin/prod_about/product/add_update/78945613"
+                  `/admin/prod_about/product/add_update/${item._id}`
                 )
               }
             >
@@ -197,6 +202,7 @@ class Product extends Component {
             columns={columns}
             rowKey="_id"
             sticky
+            loading={this.state.isLoading}
             pagination={{
               total: this.state.total,
               pageSize: PAGE_SIZE,
@@ -209,4 +215,4 @@ class Product extends Component {
     );
   }
 }
-export default Product;
+export default connect(state=>({}),{saveProduct:creatProductAction})(Product)

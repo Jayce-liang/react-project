@@ -46,8 +46,8 @@ class Header extends Component {
   };
   getTitle = () => {
     let pathKey = this.props.location.pathname.split("/").reverse()[0];
+    if(this.props.location.pathname.indexOf("product") !== -1) pathKey = "product";
     let title = "";
-
     menuList.forEach((item) => {
       if (item.children instanceof Array) {
         let temp = item.children.find((citem) => {
@@ -58,6 +58,7 @@ class Header extends Component {
         if (pathKey === item.key) title = item.title;
       }
     });
+
     this.setState({
       title,
     });

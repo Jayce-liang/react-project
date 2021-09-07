@@ -1,7 +1,7 @@
 import React, { Component } from "react";
-import { NavLink,withRouter } from "react-router-dom";
+import { NavLink, withRouter } from "react-router-dom";
 import { connect } from "react-redux";
-import {createSaveTitleAction} from "../../../redux/actions/saveTitle"
+import { createSaveTitleAction } from "../../../redux/actions/saveTitle";
 import { Menu } from "antd";
 // import * as Icon from '@ant-design/icons';
 import meauList from "../../../config/menuConfig.js";
@@ -10,17 +10,21 @@ import logo from "../../../static/images/logo.png";
 
 const { SubMenu } = Menu;
 class Nav_left extends Component {
-  componentDidMount(){
+  componentDidMount() {
     console.log();
   }
 
   createMenu = (target) => {
     return target.map((item) => {
       // const icon = React.createElement(Icon[item.icon], {}, null);
-      const icon=<item.icon />
+      const icon = <item.icon />;
       if (!item.children) {
         return (
-          <Menu.Item key={item.key} icon={icon} onClick={()=>this.props.saveTitle(item.title)}>
+          <Menu.Item
+            key={item.key}
+            icon={icon}
+            onClick={() => this.props.saveTitle(item.title)}
+          >
             <NavLink to={item.path}>{item.title}</NavLink>
           </Menu.Item>
         );
@@ -33,14 +37,23 @@ class Nav_left extends Component {
       }
     });
   };
+
+  selectTitle = () =>
+    this.props.location.pathname.split("/").reverse()[0] === "admin"
+      ? "home"
+      : this.props.location.pathname.indexOf("product") !== -1
+      ? "product"
+      : this.props.location.pathname.split("/").reverse()[0];
+
   render() {
     return (
-      <div >
+      <div>
         <header className="navLeft_header">
           <img src={logo} alt="logo" />
         </header>
-        <Menu className="menu"
-          defaultSelectedKeys={this.props.location.pathname.split("/").reverse()[0] === "admin" ? "home":this.props.location.pathname.split("/").reverse()[0]}
+        <Menu
+          className="menu"
+          defaultSelectedKeys={this.selectTitle}
           defaultOpenKeys={this.props.location.pathname.split("/").splice(2)}
           mode="inline"
           theme="dark"
@@ -51,8 +64,6 @@ class Nav_left extends Component {
     );
   }
 }
-export default connect(
-  state=>({title:state.title}),{
-    saveTitle:createSaveTitleAction
-  }
-)(withRouter(Nav_left))
+export default connect((state) => ({ title: state.title }), {
+  saveTitle: createSaveTitleAction,
+})(withRouter(Nav_left));

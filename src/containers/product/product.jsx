@@ -187,7 +187,7 @@ class Product extends Component {
               type="primary"
               onClick={() =>
                 this.props.history.push(
-                  "/admin/prod_about/product/add_update/qewqeqweqwe"
+                  "/admin/prod_about/product/add_update/"
                 )
               }
             >

@@ -1,10 +1,12 @@
 import {combineReducers} from "redux"
-import login_reducers from "./login_reducers"
-import saveTitle_reducer from "./saveTitle_reducer"
-import product_reducer from "./product_reducer"
+import loginReducers from "./login_reducers"
+import saveTitleReducer from "./saveTitle_reducer"
+import productReducer from "./product_reducer"
+import categoryReducer from "./category_reducer"
 
 export default combineReducers({
-    userInfo:login_reducers,
-    title:saveTitle_reducer,
-    productList:product_reducer
+    userInfo:loginReducers,
+    title:saveTitleReducer,
+    productList:productReducer,
+    categoryList:categoryReducer
 })

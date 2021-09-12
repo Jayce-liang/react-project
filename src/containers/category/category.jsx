@@ -1,7 +1,13 @@
 import React, { Component } from "react";
+import { connect } from "react-redux";
 import { Card, Button, Table, message, Modal, Form, Input } from "antd";
 import { PlusOutlined } from "@ant-design/icons";
-import { reqCategoryList, reqAddCategory,reqUpdateCategory } from "../../api/index";
+import { createSaveCategoryList } from "../../redux/actions/category_action";
+import {
+  reqCategoryList,
+  reqAddCategory,
+  reqUpdateCategory,
+} from "../../api/index";
 import { PAGE_SIZE } from "../../config/index";
 class Category extends Component {
   state = {
@@ -10,7 +16,7 @@ class Category extends Component {
     operationType: "",
     isLoading: true,
     currentCategoryName: "",
-    currentCategoryId:""
+    currentCategoryId: "",
   };
   formRef = React.createRef();
 
@@ -19,7 +25,12 @@ class Category extends Component {
   }
 
   //设置模态框
-  setIsModalVisible = (visible, operationType, currentCategoryName,currentCategoryId) => {
+  setIsModalVisible = (
+    visible,
+    operationType,
+    currentCategoryName,
+    currentCategoryId
+  ) => {
     this.setState(
       {
         currentCategoryName,
@@ -35,13 +46,18 @@ class Category extends Component {
   };
 
   showAddModal = () => {
-    this.setIsModalVisible(true, "add","","");
+    this.setIsModalVisible(true, "add", "", "");
   };
 
   showUpdateModal = (item) => {
     let currentCategoryName = item.name;
     let currentCategoryId = item._id;
-    this.setIsModalVisible(true, "update", currentCategoryName,currentCategoryId);
+    this.setIsModalVisible(
+      true,
+      "update",
+      currentCategoryName,
+      currentCategoryId
+    );
   };
 
   toAdd = async (categoryName) => {
@@ -58,27 +74,31 @@ class Category extends Component {
       this.formRef.current.resetFields();
     } else message.error(msg, 2);
   };
-  toUpdate=async(categoryObj)=>{
+  toUpdate = async (categoryObj) => {
     let result = await reqUpdateCategory(categoryObj);
     const { status, msg } = result;
     if (status === 0) {
       message.success("修改成功", 2);
       this.setState({
         visible: false,
-        currentCategoryName:"",
-        currentCategoryId:""
+        currentCategoryName: "",
+        currentCategoryId: "",
       });
-      this.getCategoryList()
+      this.getCategoryList();
       this.formRef.current.resetFields();
     } else message.error(msg, 2);
-  }
+  };
   handleOk = async () => {
     // 验证是否为空
     try {
       //校验表单输入及获取输入的值data
       let categoryName = await this.formRef.current.validateFields(); //如果不传参默认校验的所有输入项
       if (this.state.operationType === "add") this.toAdd(categoryName);
-      if (this.state.operationType === "update") this.toUpdate({categoryName:categoryName.categoryName,categoryId:this.state.currentCategoryId});
+      if (this.state.operationType === "update")
+        this.toUpdate({
+          categoryName: categoryName.categoryName,
+          categoryId: this.state.currentCategoryId,
+        });
     } catch {
       message.error("不能为空！", 2);
       return;
@@ -98,9 +118,11 @@ class Category extends Component {
   getCategoryList = async () => {
     let result = await reqCategoryList();
     let { status, data, msg } = result;
-    if (status === 0)
+    if (status === 0) {
       this.setState({ categoryList: data.reverse(), isLoading: false });
-    else message.error(msg);
+      //将数据存入redux
+      this.props.saveCategoryList(data);
+    } else message.error(msg);
   };
 
   render() {
@@ -132,10 +154,10 @@ class Category extends Component {
     return (
       <>
         <Card
-          style={{ width: "100%", height: "100%"}}
+          style={{ width: "100%", height: "100%" }}
           title="Category card"
           extra={
-            <Button type="primary"  onClick={this.showAddModal}>
+            <Button type="primary" onClick={this.showAddModal}>
               <PlusOutlined />
               添加分类
             </Button>
@@ -181,4 +203,6 @@ class Category extends Component {
   }
 }
 
-export default Category;
+export default connect((state) => ({}), {
+  saveCategoryList: createSaveCategoryList,
+})(Category);

@@ -57,5 +57,18 @@ export const reqSearchProduct = (pageNum, pageSize, searchType, keyword) =>
 //根据id获取商品列表
 export const reqProductByID = (productId) =>
   myAxios.get(`${BASE_URL}/manage/product/info`, {
-    params: {productId},
+    params: { productId },
   });
+
+//删除图片
+export const reqDeleteImage = (name) =>
+  myAxios.post(`${BASE_URL}/manage/img/delete`, { name });
+
+//添加商品
+export const reqAddProduct = (productObj) =>
+  myAxios.post(`${BASE_URL}/manage/product/add`, { ...productObj });
+
+//更新商品
+export const reqUpdateProduct = (productObj) =>
+  myAxios.post(`${BASE_URL}/manage/product/update`, { ...productObj });
+

@@ -1,10 +1,10 @@
-import { SAVE_TITLE } from "../action_types";
+import { SAVE_CATEGROYLIST } from "../action_types";
 let initState ="";
-export default function saveTitle_reducer(preState = initState, action) {
+export default function categoryReducer(preState = initState, action) {
   let { type, data } = action;
   let newState;
   switch (type) {
-    case SAVE_TITLE:
+    case SAVE_CATEGROYLIST:
       newState = data;
       return newState;
     default:

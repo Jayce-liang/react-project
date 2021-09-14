@@ -1,8 +1,8 @@
 import { Component } from "react";
 import { Card, Button, message, Select, Input, Tooltip, Table } from "antd";
 import { PlusSquareOutlined, SearchOutlined } from "@ant-design/icons";
-import {connect} from "react-redux"
-import {creatProductAction} from "../../redux/actions/product_action"
+import { connect } from "react-redux";
+import { creatProductAction } from "../../redux/actions/product_action";
 import {
   reqProductList,
   reqUpdateProdStatus,
@@ -39,7 +39,7 @@ class Product extends Component {
         current: data.pageNum,
         isLoading: false,
       });
-      this.props.saveProduct(data.list)
+      this.props.saveProduct(data.list);
     } else message.error("请求数据失败", 2);
   };
 
@@ -186,9 +186,7 @@ class Product extends Component {
             <Button
               type="primary"
               onClick={() =>
-                this.props.history.push(
-                  "/admin/prod_about/product/add_update/"
-                )
+                this.props.history.push("/admin/prod_about/product/add_update/")
               }
             >
               <PlusSquareOutlined />
@@ -215,4 +213,6 @@ class Product extends Component {
     );
   }
 }
-export default connect(state=>({}),{saveProduct:creatProductAction})(Product)
+export default connect((state) => ({}), { saveProduct: creatProductAction })(
+  Product
+);

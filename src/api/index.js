@@ -72,3 +72,27 @@ export const reqAddProduct = (productObj) =>
 export const reqUpdateProduct = (productObj) =>
   myAxios.post(`${BASE_URL}/manage/product/update`, { ...productObj });
 
+//获取角色列表
+export const reqRoleList = (pageNum, pageSize) =>
+  myAxios.get(`${BASE_URL}/manage/role/list`, {
+    params: { pageNum, pageSize },
+  });
+
+//添加角色
+export const reqAddRole = ({ roleName }) =>
+  myAxios.post(`${BASE_URL}/manage/role/add`, { roleName });
+
+//给角色授权
+export const reqAuthRole = (authObj) =>
+  myAxios.post(`${BASE_URL}/manage/role/update`, {
+    ...authObj,
+    auth_time: Date.now(),
+  });
+
+//请求获取所有用户列表（同时返回了roleList）
+
+export const reqUserList = () => myAxios.get(`${BASE_URL}/manage/user/list`);
+
+//请求添加用户
+export const reqAddUser = (userObj) =>
+  myAxios.post(`${BASE_URL}/manage/user/add`, { ...userObj });

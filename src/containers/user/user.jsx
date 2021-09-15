@@ -145,19 +145,19 @@ class User extends Component {
                 { required: true, whitespace: true, message: "请输入用户名" },
               ]}
             >
-              <Input autoComplete="off" placeholder="请输入商品名称" />
+              <Input autoComplete="off" placeholder="请输入用户名" />
             </Form.Item>
             <Form.Item
               label="密码"
               name="password"
               rules={[
-                { required: true, whitespace: true, message: "请输入密码" },
+                { required: true, whitespace: true, message: "密码最小为4位",min:4},
               ]}
             >
               <Input
                 type={"password"}
                 autoComplete="off"
-                placeholder="请输入商品描述"
+                placeholder="请输入密码"
               />
             </Form.Item>
             <Form.Item label="邮箱" name="email">

@@ -51,7 +51,7 @@ class Nav_left extends Component {
             </SubMenu>
           );
         }
-      }
+      }else return null;
     });
   };
 

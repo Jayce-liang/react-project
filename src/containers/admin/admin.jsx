@@ -45,7 +45,7 @@ class Admin extends Component {
           </Sider>
           <Layout style={{ marginLeft: 200, minHeight: "100vh" }}>
             <Header></Header>
-            <Content className="content" style={{ margin: "10px 16px 0" }}>
+            <Content className="content" style={{ margin: "10px 16px 0"}}>
               <Switch>
                 <Route path="/admin/home" component={Home} />
                 <Route path="/admin/prod_about/category" component={Category} />

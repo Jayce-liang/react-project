@@ -1,0 +1,13 @@
+.ant-table-thead tr .ant-table-cell{
+ font-size: 17px;
+ color: #41b883;
+ background-color: #f8f7f7;
+}
+
+/* .ant-table-tbody .ant-table-row-level-0:hover{
+ background: #d6fae9!important
+}  */
+
+.ant-table-tbody > tr:hover:not(.ant-table-expanded-row):not(.ant-table-row-selected) > td {
+ background: #e0f7ec
+}

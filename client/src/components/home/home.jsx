@@ -1,8 +1,8 @@
 import { Statistic, Card, Row, Col } from "antd";
 import { ArrowUpOutlined, ArrowDownOutlined } from "@ant-design/icons";
 
-import React, { useState, useEffect,memo } from "react";
-import { Chart, Coord, Tooltip, Geom, Interaction, getTheme } from "bizcharts";
+import React, { useState, useEffect, memo } from "react";
+import { Interaction, Tooltip, Chart, getTheme, Geom, Coord } from "bizcharts";
 import DataSet from "@antv/data-set";
 import * as turf from "@turf/turf";
 
@@ -63,23 +63,27 @@ function Home() {
     const dataUrl =
       "https://gw.alipayobjects.com/os/bmw-prod/d4652bc5-e971-4bca-a48c-5d8ad10b3d91.json";
 
-    fetch(dataUrl)
-      .then((res) => res.json())
-      .then((d) => {
-        const feas = d.features
-          .filter((feat) => feat.properties.name)
-          .map((v) => {
-            return {
-              ...v,
-              properties: {
-                ...v.properties,
-                size: Math.floor(Math.random() * 300),
-              },
-            };
-          });
-        const res = { ...d, features: feas };
-        setMapData(res);
-      });
+    try {
+      fetch(dataUrl)
+        .then((res) => res.json())
+        .then((d) => {
+          const feas = d.features
+            .filter((feat) => feat.properties.name)
+            .map((v) => {
+              return {
+                ...v,
+                properties: {
+                  ...v.properties,
+                  size: Math.floor(Math.random() * 300),
+                },
+              };
+            });
+          const res = { ...d, features: feas };
+          setMapData(res);
+        });
+    } catch (error) {
+      console.log(error);
+    }
   }, []);
 
   let bgView;

@@ -51,7 +51,8 @@ app.get("/test", function (req, res) {
   });
 });
 
-// 通过mongoose连接数据库
+
+// =========通过mongoose连接数据库
 const { SERVER_CONFIG, DB_CONFIG } = require("./config");
 
 mongoose

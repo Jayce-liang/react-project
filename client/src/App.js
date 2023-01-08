@@ -11,7 +11,7 @@ class App extends Component {
           <Switch>
             <Route path="/login" component={Login} />
             <Route path="/admin" component={Admin} />
-            <Redirect to="/admin"/>
+            <Redirect to="/admin" />
           </Switch>
         </div>
       </BrowserRouter>

@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { PureComponent } from "react";
 import { Upload, Modal, message } from "antd";
 import { PlusOutlined } from "@ant-design/icons";
 import { reqDeleteImage } from "../../api/index";
@@ -11,7 +11,7 @@ function getBase64(file) {
     reader.onerror = (error) => reject(error);
   });
 }
-export default class PicturesWall extends Component {
+export default class PicturesWall extends PureComponent {
   state = {
     previewVisible: false,
     previewImage: "",
@@ -29,12 +29,15 @@ export default class PicturesWall extends Component {
 
   setFileList = (imgArr) => {
     const fileList = [];
-    imgArr.forEach((item,index) => {
-      fileList.push({uid:-index,name:item,url:`${BASE_URL}/upload/`+item})
+    imgArr.forEach((item, index) => {
+      fileList.push({
+        uid: -index,
+        name: item,
+        url: `${BASE_URL}/upload/` + item,
+      });
     });
-    this.setState({fileList})
+    this.setState({ fileList });
   };
-
 
   handleCancel = () => this.setState({ previewVisible: false });
 

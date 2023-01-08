@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { PureComponent } from "react";
 import dayjs from "dayjs";
 import { Card, Button, Table, Form, Input, Modal, message, Tree } from "antd";
 import { UserAddOutlined } from "@ant-design/icons";
@@ -6,7 +6,7 @@ import { connect } from "react-redux";
 import { reqRoleList, reqAddRole, reqAuthRole } from "../../api/index";
 import { PAGE_SIZE } from "../../config/index";
 import menuList from "../../config/menuConfig";
-class Role extends Component {
+class Role extends PureComponent {
   addFormRef = React.createRef();
   state = {
     isShowAdd: false, //是否展示 添加角色 模态框
@@ -89,7 +89,7 @@ class Role extends Component {
     const { _id, checkedKeys } = this.state;
     const anth_name = this.props.username;
     const result = await reqAuthRole({ _id, menus: checkedKeys, anth_name });
-    const { status} = result;
+    const { status } = result;
     if (status === 0) {
       message.success("授权成功", 2);
       this.getRoleList(this.state.current);

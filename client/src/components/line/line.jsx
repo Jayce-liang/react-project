@@ -1,7 +1,7 @@
-import { Component } from "react";
+import { PureComponent } from "react";
 import EChartsReact from "echarts-for-react";
 
-class Line extends Component {
+class Line extends PureComponent {
   render() {
     const option = {
       title: {
@@ -19,7 +19,7 @@ class Line extends Component {
       legend: {
         data: ["邮件营销", "联盟广告", "视频广告", "直接访问", "搜索引擎"],
       },
-      
+
       grid: {
         left: "3%",
         right: "4%",
@@ -103,7 +103,7 @@ class Line extends Component {
             width: "80vw",
             height: "70vh",
             margin: "0 auto",
-            padding:"20px",
+            padding: "20px",
             background: "white",
           }}
         ></EChartsReact>

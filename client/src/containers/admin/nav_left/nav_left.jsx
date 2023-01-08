@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { PureComponent } from "react";
 import { NavLink, withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 import { createSaveTitleAction } from "../../../redux/actions/saveTitle";
@@ -9,7 +9,7 @@ import "../nav_left/css/index.less";
 import logo from "../../../static/images/logo.png";
 
 const { SubMenu } = Menu;
-class Nav_left extends Component {
+class Nav_left extends PureComponent {
   //判断是否有权限
   hasAuth = (item) => {
     //username:当前用户；menus：当前用户所能访问的菜单

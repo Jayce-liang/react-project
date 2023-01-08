@@ -1,4 +1,4 @@
-import { Component } from "react";
+import { PureComponent } from "react";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
 import { Button, Modal, Divider } from "antd";
@@ -14,7 +14,7 @@ import { createDeleteUserInfoAction } from "../../../redux/actions/logout_action
 import "./css/header.less";
 import menuList from "../../../config/menuConfig";
 
-class Header extends Component {
+class Header extends PureComponent {
   state = {
     isFull: false,
     date: dayjs().format("YYYY-MM-DD HH:mm:ss"),

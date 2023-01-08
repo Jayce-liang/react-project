@@ -1,4 +1,4 @@
-import { Component } from "react";
+import { PureComponent } from "react";
 import { connect } from "react-redux";
 import {Redirect} from "react-router-dom"
 import { Form, Input, Button, message } from "antd";
@@ -8,7 +8,7 @@ import { createSaveUserInfoAction } from "../../redux/actions/login_action";
 import "./css/login.less";
 import logo from "../../static/images/logo.png";
 
-class Login extends Component {
+class Login extends PureComponent {
   componentDidMount() {}
   onFinish = async (userInput) => {
     //登录请求
@@ -20,7 +20,7 @@ class Login extends Component {
     let result = await reqLogin(userInput.username, userInput.password);
     if (result.status === 0) {
       //将数据交给redux管理
-      this.props.saveUserInfo(result.data)
+      this.props.saveUserInfo(result.data);
       //跳转到admin页面
       this.props.history.replace("/admin");
     } else {
@@ -45,8 +45,8 @@ class Login extends Component {
 
   render() {
     //如果之前已经登录过了，跳转到admin界面
-    if(this.props.isLogin){
-      return <Redirect to="/admin"/>
+    if (this.props.isLogin) {
+      return <Redirect to="/admin" />;
     }
     return (
       <div className="login">
@@ -77,7 +77,7 @@ class Login extends Component {
             >
               <Input
                 prefix={<UserOutlined className="site-form-item-icon" />}
-                placeholder="用户名"
+                placeholder="用户名:admin"
               />
             </Form.Item>
             <Form.Item
@@ -87,7 +87,7 @@ class Login extends Component {
               <Input
                 prefix={<LockOutlined className="site-form-item-icon" />}
                 type="password"
-                placeholder="密码"
+                placeholder="密码:admin"
               />
             </Form.Item>
             <Form.Item>

@@ -1,6 +1,6 @@
-import { Component } from "react";
+import { PureComponent } from "react";
 import EChartsReact from "echarts-for-react";
-class Bar extends Component {
+class Bar extends PureComponent {
   render() {
     let option = {
       tooltip: {

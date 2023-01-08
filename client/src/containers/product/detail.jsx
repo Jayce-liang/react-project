@@ -1,11 +1,11 @@
-import React, { Component } from "react";
+import React, { PureComponent } from "react";
 import { Button, Card, List, message } from "antd";
 import { connect } from "react-redux";
 import { LeftOutlined } from "@ant-design/icons";
 import { reqProductByID, reqCategoryList } from "../../api/index";
 import "./css/detail.less";
 
-class Detail extends Component {
+class Detail extends PureComponent {
   state = {
     categoryId: "",
     categoryName: "",
@@ -96,7 +96,12 @@ class Detail extends Component {
               <span className="prod_name">
                 商品图片:
                 {this.state.imgs.map((item) => (
-                  <img style={{width:200}} key={item} src={"/upload/" + item} alt="商品图片" />
+                  <img
+                    style={{ width: 200 }}
+                    key={item}
+                    src={"/upload/" + item}
+                    alt="商品图片"
+                  />
                 ))}
               </span>
             </List.Item>

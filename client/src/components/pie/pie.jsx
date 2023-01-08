@@ -1,7 +1,7 @@
-import { Component } from "react";
+import { PureComponent } from "react";
 import EChartsReact from "echarts-for-react";
 
-class Pie extends Component {
+class Pie extends PureComponent {
   render() {
     const option = {
       legend: {

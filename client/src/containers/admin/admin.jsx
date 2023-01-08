@@ -1,14 +1,14 @@
 import { Layout } from "antd";
-import { Component } from "react";
+import { PureComponent } from "react";
 import { connect } from "react-redux";
 import { Redirect, Route, Switch } from "react-router-dom";
 import { createDeleteUserInfoAction } from "../../redux/actions/logout_action.js";
 import NavLeft from "./nav_left/nav_left.jsx";
 import Home from "../../components/home/home.jsx";
 import Category from "../category/category";
-import Bar from "../bar/bar";
-import Line from "../line/line";
-import Pie from "../pie/pie";
+import Bar from "../../components/bar/bar";
+import Line from "../../components/line/line";
+import Pie from "../../components/pie/pie";
 import Product from "../product/product";
 import Detail from "../product/detail";
 import AddUpdate from "../product/add_update";
@@ -20,7 +20,7 @@ import "../admin/css/admin.less";
 
 const { Footer, Sider, Content } = Layout;
 
-class Admin extends Component {
+class Admin extends PureComponent {
   logout = () => {
     this.props.deleteUserInfo();
   };

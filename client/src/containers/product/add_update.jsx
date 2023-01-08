@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { PureComponent } from "react";
 import { connect } from "react-redux";
 import { Card, Form, Input, Button, Select, message } from "antd";
 import { LeftOutlined } from "@ant-design/icons";
@@ -12,7 +12,7 @@ import {
 } from "../../api/index";
 import "./css/detail.less";
 const { Option } = Select;
-class AddUpdate extends Component {
+class AddUpdate extends PureComponent {
   state = {
     categoryList: [],
     operaType: "add",
@@ -74,7 +74,13 @@ class AddUpdate extends Component {
     let result;
     if (this.state.operaType === "add") {
       result = await reqAddProduct({ ...value, detail, imgs });
-    }else result = await reqUpdateProduct({ ...value, detail, imgs,_id:this.state._id});
+    } else
+      result = await reqUpdateProduct({
+        ...value,
+        detail,
+        imgs,
+        _id: this.state._id,
+      });
 
     const { status } = result;
     if (status === 0) {

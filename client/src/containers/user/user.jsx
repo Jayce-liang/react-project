@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { PureComponent } from "react";
 import { Button, Card, Form, Input, message, Modal, Select, Table } from "antd";
 import {
   PlusCircleOutlined,
@@ -12,7 +12,7 @@ import {
   reqDelUser,
 } from "../../api/index";
 const { Option } = Select;
-class User extends Component {
+class User extends PureComponent {
   formRef = React.createRef();
 
   state = {

@@ -1,7 +1,7 @@
 import { Statistic, Card, Row, Col } from "antd";
 import { ArrowUpOutlined, ArrowDownOutlined } from "@ant-design/icons";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect,memo } from "react";
 import { Chart, Coord, Tooltip, Geom, Interaction, getTheme } from "bizcharts";
 import DataSet from "@antv/data-set";
 import * as turf from "@turf/turf";
@@ -198,4 +198,4 @@ function Home() {
   );
 }
 
-export default Home;
+export default memo(Home);

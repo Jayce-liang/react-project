@@ -1,4 +1,4 @@
-import { Component } from "react";
+import { PureComponent } from "react";
 import { Card, Button, message, Select, Input, Tooltip, Table } from "antd";
 import { PlusSquareOutlined, SearchOutlined } from "@ant-design/icons";
 import { connect } from "react-redux";
@@ -10,7 +10,7 @@ import {
 } from "../../api/index";
 import { PAGE_SIZE } from "../../config/index";
 const { Option } = Select;
-class Product extends Component {
+class Product extends PureComponent {
   state = {
     total: "", //数据总数
     current: 1, //当前在哪一页

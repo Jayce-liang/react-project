@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { PureComponent } from "react";
 import { connect } from "react-redux";
 import { Card, Button, Table, message, Modal, Form, Input } from "antd";
 import { PlusOutlined } from "@ant-design/icons";
@@ -9,7 +9,7 @@ import {
   reqUpdateCategory,
 } from "../../api/index";
 import { PAGE_SIZE } from "../../config/index";
-class Category extends Component {
+class Category extends PureComponent {
   state = {
     categoryList: [],
     visible: false,
@@ -51,7 +51,7 @@ class Category extends Component {
 
   showUpdateModal = (item) => {
     let currentCategoryName = item.name;
-    let currentCategoryId = item._id; 
+    let currentCategoryId = item._id;
     this.setIsModalVisible(
       true,
       "update",
@@ -139,14 +139,14 @@ class Category extends Component {
         width: "25%",
         align: "center",
         render: (item) => {
-          return (                                                                              
+          return (
             <Button
               type="primary"
               size="maddle"
               onClick={() => this.showUpdateModal(item)}
             >
               修改分类
-            </Button>                                            
+            </Button>
           );
         },
       },
